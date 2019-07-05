@@ -1,2 +1,0 @@
-# tsunaweak.github.io
-Solopicker
