@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <title>Colorless</title>
+  <link rel="stylesheet" href="t.css">
+</head>
+<body>
+  <div class="home">
+    <div class="nav-wrapper">
+      <div class="nav-container">
+        <div class="menu">
+          <ul>
+            <li>
+              <a href="#" data-text="Home">
+                <i class="fa fa-home" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-text="About">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-text="Contact">
+                <i class="fa fa-address-book" aria-hidden="true"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#" data-text="Maps">
+                <i class="fa fa-map-marker" aria-hidden="true"></i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="home-text">
+      <div class="text-wrapper">
+        <div class="name">Nathaniel Baleña</div>
+        <div class="description">Web Developer</div>
+      </div>
+    </div>
+    <div class="animation-area">
+      <div class="box-area">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="project" id="project">
+
+  </div>
+  <div class="contact" id="contact">
+
+  </div> -->
+</body>
+</html>
+<script type="text/javascript">
+  var box = document.querySelectorAll('.box-area span');
+  for(let i = 0; i < box.length;i++){
+    let xSize = Math.floor(Math.random() * 120)  + 35;
+    box[i].style.width = xSize + 'px';
+    box[i].style.height = xSize + 'px';
+    console.log(box[i]);
+  }
+</script>
