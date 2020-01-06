@@ -23,6 +23,19 @@ body{
     list-style: none;
     overflow: hidden;
 }
+.header nav ul li{
+    animation: fadeInRight 0.5s linear forwards;
+}
+.header nav ul li:nth-child(1){
+    animation-delay: 0.6s;
+}
+.header nav ul li:nth-child(2){
+    animation-delay: 0.7s;
+}
+.header nav ul li:nth-child(3){
+    animation-delay: 0.8s;
+}
+
 .header nav ul a{
     display: block;
     padding: 1.3em;
@@ -39,6 +52,8 @@ body{
     position: relative;
     font-weight: bold;
     text-decoration: none;
+    animation: fadeInLeft 0.5s linear forwards;
+    animation-delay: 0.6s;
 }
 .header .logo a{
     
@@ -103,6 +118,26 @@ body{
     transform: rotate(45deg);
     top: 0;
 }
+@keyframes fadeInRight{
+    0%{
+        transform: translateX(150px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+@keyframes fadeInLeft{
+    0%{
+        transform: translateX(-150px);
+        opacity: 0;
+    }
+    100%{
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 .home-container{
     width: 100%;
     height: 100vh;
@@ -120,14 +155,48 @@ body{
 }
 .home-container .wrapper a{
     text-decoration: none;
-    display: block;
+    display: inline-block;
+    position: relative;
     margin-top: 15px;
     width: 70%;
     text-align: center;
     font-weight: 600;
-    border: 1px solid #fff;
+    border: 2px solid #fff;
     padding: 10px 5px;
     color: #fff;
+}
+.home-container .wrapper a:before{
+    content: '';
+    position: absolute;
+    top:6px;
+    left:-2px;
+    width: calc(100% + 4px);
+    height: calc(100% - 12px);
+    background: #222629;
+    transition: 0.5s ease-in-out;
+    transform: scaleY(1);
+}
+.home-container .wrapper a:hover:before{
+    transform: scaleY(0);
+}
+.home-container .wrapper a:after{
+    content: '';
+    position: absolute;
+    top:-2px;
+    left:6px;
+    height: calc(100% + 4px);
+    width: calc(100% - 12px);
+    background: #222629;
+    transition: 0.5s ease-in-out;
+    transform: scaleX(1);
+}
+.home-container .wrapper a:hover:after{
+    transform: scaleX(0);
+} 
+
+.home-container .wrapper a span{
+    position: relative;
+    z-index: 3;
 }
 .home-container .wrapper .bannerText h2{
     margin: 0;
@@ -203,9 +272,10 @@ body{
 }
 .project-container .card-wrapper{
     width: 320px;
-    background-color: #fff;
+    background-color: #222629;
     padding: 15px;
     margin: 35px;
+    border: 1px solid #fff;
 }
 .project-container .language-icons{
     width: 100%;
@@ -223,11 +293,11 @@ body{
 }
 .project-container .language-icons .icon-wrapper .icon i{
     font-size: 2em;
-    color: #000;
+    color: #fff;
     display: block;
 }
 .project-container .language-icons .icon-wrapper .icon span{
-    color: #000;
+    color: #fff;
     font-size: .5em;
     font-weight: bold;
 }
@@ -242,7 +312,7 @@ body{
 }
 .project-container .card-paragraph{
     margin-top: 20px;
-    color: #000;
+    color: #fff;
 }
 .project-container .card-links{
     display: flex;
@@ -253,7 +323,8 @@ body{
     text-decoration: none;
     padding: 10px 15px;
     margin-right: 5px;
-    color: #000;
+    color: #fff;
+    font-weight: 600;
     border: 1px solid #ccc;
 }
 .contact-container{
@@ -287,8 +358,8 @@ body{
 }
 .contact-container .contact .flex-wrapper .flex-col .contact-form .contact-field input:not(.form-btn){
     display: block;
-    padding: 5px;
     font-size: 1.5em;
+    padding: 5px;
     color: #fff;
     border: none;
     width: 100%;
@@ -314,6 +385,8 @@ body{
     border: 1px solid #fff;
     padding: 10px 30px;
     outline: none;
+    cursor: pointer;
+    font-weight: 600;
 }
 .contact-container .contact .flex-wrapper .flex-col .list-info{
     list-style: none;
@@ -336,6 +409,7 @@ body{
     text-align: left;
     display: block;
     line-height: 1.75em;
+    
 }
     
 .contact-container .contact .flex-wrapper .flex-col .list-info li a span:nth-child(1){
@@ -436,6 +510,7 @@ body{
         color: #fff;
         border: 1px solid #fff;
         padding: 10px 30px;
+        
     }
     .contact-container .contact .flex-wrapper .flex-col .list-info li a span:nth-child(1){
         font-size: 2.5em;
@@ -516,8 +591,8 @@ body{
         width: 60%;
         font-size: 1em;
         text-align: center;
-        font-weight: 600;
         border: 1px solid #fff;
+        width: 50%;
         padding: 10px 5px;
         color: #fff;
         
@@ -562,7 +637,7 @@ body{
         resize: none;
     }
     .contact-container .contact .flex-wrapper .flex-col .contact-form .contact-field .form-btn{
-        font-size: 1.5em;
+        font-size: 1.2em;
         margin: 0;
         background: transparent;
         color: #fff;
