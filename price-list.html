@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MLBB Price Table With Script Display</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #fafafa;
+        display: flex;
+        gap: 20px;
+    }
+
+    /* LEFT SIDE: form + table */
+    .left {
+        flex: 1;
+    }
+
+    /* RIGHT SIDE: code block */
+    .right {
+        width: 420px;
+        background: #1e1e1e;
+        color: #dcdcdc;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        overflow: auto;
+        max-height: 95vh;
+        position: sticky;
+        top: 20px;
+    }
+
+    pre {
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    #copyBtn {
+        background: #3a86ff;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        cursor: pointer;
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    #copyBtn:hover {
+        background: #1d5ed8;
+    }
+
+    textarea {
+        width: 80%;
+        height: 240px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: monospace;
+    }
+
+    #generateBtn, #downloadBtn {
+        margin: 10px 5px 20px 0;
+        padding: 10px 15px;
+        background: #007bff;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    #generateBtn:hover, #downloadBtn:hover {
+        background: #0056b3;
+    }
+
+    table {
+        border-collapse: collapse;
+        font-size: 14px;
+        background: white;
+        margin-top: 20px;
+    }
+
+    thead tr {
+        background: #f5e8c8;
+        font-weight: bold;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px 10px;
+        text-align: center;
+    }
+
+    tbody tr:nth-child(even) { background: #fdfdfd; }
+    tbody tr:nth-child(odd) { background: #ffffff; }
+
+</style>
+</head>
+<body>
+
+<!-- LEFT SIDE -->
+<div class="left">
+
+    <h2>MLBB Price List Table Generator</h2>
+
+    <textarea id="dataInput">// Paste your JSON here</textarea>
+
+    <br>
+    <button id="generateBtn">Generate Table</button>
+    <button id="downloadBtn">Download Table as Image</button>
+
+    <table id="priceTable">
+        <thead>
+            <tr>
+                <th>ITEM</th>
+                <th>PRICE</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<!-- RIGHT SIDE: SCRIPT PANEL -->
+<div class="right">
+    <button id="copyBtn">Copy Script</button>
+
+    <pre id="scriptCode">
+function parsePrice(p) {
+    return Number(p.replace(/[₱,]/g, "").trim());
+}
+
+const productsMap = new Map();
+
+document.querySelectorAll(".col-sm-4.col-6.d-flex").forEach(item => {
+    const nameEl = item.querySelector(".product-name");
+    const priceEl = item.querySelector(".currency-idr1");
+
+    if (!nameEl || !priceEl) return;
+
+    const name = nameEl.textContent.trim();
+    const priceRaw = priceEl.textContent.trim();
+
+    const price = parsePrice(priceRaw);
+    const pricePlus3 = Math.round(price * 1.03);
+
+    if (price > 40) {
+        productsMap.set(name, {
+            name,
+            price: `₱${pricePlus3.toLocaleString("en-PH")}`
+        });
+    }
+});
+
+const products = Array.from(productsMap.values());
+
+console.log(JSON.stringify(products));
+    </pre>
+</div>
+
+<script>
+let replace = {
+    "301 Diamonds ( 274 + 27  )": "Normal Starlight (301 Diamonds)",
+    "749 Diamonds ( 667 + 82  )": "Starlight Plus (749 Diamonds)"
+};
+
+let skip = [
+    "Weekly Diamond Pass x2",
+    "Weekly Diamond Pass x3",
+    "Weekly Diamond Pass x4",
+    "Weekly Diamond Pass x5"
+];
+
+function generateTable() {
+    let tbody = document.querySelector("#priceTable tbody");
+    tbody.innerHTML = "";
+
+    let input = document.getElementById("dataInput").value;
+
+    try {
+        let data = JSON.parse(input);
+
+        data.forEach(item => {
+            if (skip.includes(item.name)) return;
+
+            let tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td><strong>${replace[item.name] ?? item.name}</strong></td>
+                <td><strong>${item.price}</strong></td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+    } catch (e) {
+        alert("❌ Invalid JSON! Please check your formatting.");
+    }
+}
+
+document.getElementById("generateBtn").addEventListener("click", generateTable);
+
+// AUTO-COPY SCRIPT BUTTON
+document.getElementById("copyBtn").addEventListener("click", () => {
+    const text = document.getElementById("scriptCode").innerText;
+    navigator.clipboard.writeText(text);
+    alert("Script copied!");
+});
+
+// DOWNLOAD TABLE IMAGE
+document.getElementById("downloadBtn").addEventListener("click", () => {
+    const table = document.getElementById("priceTable");
+    html2canvas(table, { scale: 3 }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "MLBB_Price_List.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+    });
+});
+
+// Auto-generate a blank table
+generateTable();
+</script>
+
+</body>
+</html>
